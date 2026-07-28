@@ -45,7 +45,7 @@ switch (command) {
                                 filteredList = taskList.filter(t => t.status === "done");
                                 break;
                         }
-                        case "to-do":{
+                        case "todo":{
                                 filteredList = taskList.filter(t => t.status === "todo");
                                 break;
                         }
