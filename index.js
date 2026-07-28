@@ -1,3 +1,5 @@
+#!/usr/bin/env node
+
 const [, , command, ...args] = process.argv;
 const fs = require("fs");
 
@@ -20,14 +22,14 @@ switch (command) {
                 const task = {
                         id : nextId,
                         description, 
-                        status : "to-do",
+                        status : "todo",
                         createdAt : now,
                         updatedAt : now,
                 }
                 tasks.push(task);
                 fs.writeFileSync( "tasks.json", JSON.stringify(tasks, null, 2));
                 
-                console.log("Task " + nextId + " Successfully added.");
+                console.log("Task added successfully (ID : " + nextId + ")");
                 break;
         }
         
@@ -44,7 +46,7 @@ switch (command) {
                                 break;
                         }
                         case "to-do":{
-                                filteredList = taskList.filter(t => t.status === "to-do");
+                                filteredList = taskList.filter(t => t.status === "todo");
                                 break;
                         }
                         case "in-progress":{

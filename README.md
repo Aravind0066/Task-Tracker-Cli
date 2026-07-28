@@ -36,10 +36,11 @@ This project was built to strengthen fundamental backend concepts such as file h
 
 ## Project Structure
 
-```
+```text
 Task-Tracker-CLI/
 │
-├── task-cli.js
+├── index.js
+├── package.json
 ├── tasks.json
 └── README.md
 ```
@@ -52,69 +53,97 @@ Clone the repository:
 
 ```bash
 git clone https://github.com/Aravind0066/Task-Tracker-Cli.git
-```
-
-Move into the project directory:
-
-```bash
 cd Task-Tracker-Cli
 ```
 
-Create a `tasks.json` file in the root directory and initialize it with:
+Install dependencies (if required):
+
+```bash
+npm install
+```
+
+Create a `tasks.json` file in the project root:
 
 ```json
 []
+```
+
+Make the CLI executable (Linux/macOS):
+
+```bash
+chmod +x index.js
+```
+
+Link the CLI globally:
+
+```bash
+sudo npm link
+```
+
+Verify the installation:
+
+```bash
+task-cli
 ```
 
 ---
 
 ## Usage
 
+Once linked, the application can be executed from any directory using the `task-cli` command.
+
 ### Add a Task
 
 ```bash
-node task-cli.js add "Complete backend project"
+task-cli add "Complete backend project"
 ```
 
 ### List All Tasks
 
 ```bash
-node task-cli.js list
+task-cli list
 ```
 
 ### List Tasks by Status
 
 ```bash
-node task-cli.js list to-do
+task-cli list to-do
 
-node task-cli.js list in-progress
+task-cli list in-progress
 
-node task-cli.js list done
+task-cli list done
 ```
 
 ### Update a Task
 
 ```bash
-node task-cli.js update 2 "Learn Express.js"
+task-cli update 2 "Learn Express.js"
 ```
 
-### Mark as In Progress
+### Mark a Task as In Progress
 
 ```bash
-node task-cli.js mark-in-progress 2
+task-cli mark-in-progress 2
 ```
 
-### Mark as Done
+### Mark a Task as Done
 
 ```bash
-node task-cli.js mark-done 2
+task-cli mark-done 2
 ```
 
 ### Delete a Task
 
 ```bash
-node task-cli.js delete 2
+task-cli delete 2
 ```
+
+---
+
+## Requirements
+
+- Node.js 18 or later
+- npm
 
 ---
 
@@ -148,7 +177,6 @@ node task-cli.js delete 2
 This project is based on the **Task Tracker** project from roadmap.sh.
 
 https://roadmap.sh/projects/task-tracker
-
 ---
 
 ## Author
