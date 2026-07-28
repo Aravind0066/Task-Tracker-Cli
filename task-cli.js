@@ -13,21 +13,21 @@ switch (command) {
                 const tasks = JSON.parse(fs.readFileSync("tasks.json", "utf8"));
                 
                 const now = new Date().toISOString();
-                const description = args[0];
+                const description = args.join(" ");
                 
                 const nextId = tasks.reduce((acc, task)=>{return Math.max(acc, task.id)}, 0) + 1;
                 
                 const task = {
-                        "id": nextId,
-                        "description" : description,
-                        "status" : "to-do",
-                        "createdAt" : now,
-                        "updatedAt" : now,
+                        id : nextId,
+                        description, 
+                        status : "to-do",
+                        createdAt : now,
+                        updatedAt : now,
                 }
                 tasks.push(task);
                 fs.writeFileSync( "tasks.json", JSON.stringify(tasks, null, 2));
                 
-                console.log("Task Successfully added. Task Id : " + nextId);
+                console.log("Task " + nextId + " Successfully added.");
                 break;
         }
         
@@ -56,7 +56,7 @@ switch (command) {
                                 
                 }
 
-                console.log(filteredList)
+                console.table(filteredList)
                 break;
         }
 
@@ -64,6 +64,12 @@ switch (command) {
         
         case "delete":{
                 const idToDelete = Number(args[0]);
+
+                if(Number.isNaN(idToDelete)){
+                        console.error("Please enter a valid Task Id.");
+                        break;
+                }
+
                 const taskList = JSON.parse(fs.readFileSync("tasks.json", "utf-8"));
                 const updatedList = taskList.filter( t => t.id !== idToDelete);
                 
@@ -71,7 +77,7 @@ switch (command) {
                         console.error("Task not found. Please enter a valid task Id.");
                 }else{
                         fs.writeFileSync("tasks.json",JSON.stringify(updatedList, null, 2));
-                        console.log("Task Successfully Deleted. Deleted Id : " + idToDelete);
+                        console.log("Task " + idToDelete + " Successfully Deleted.");
                 }
 
                 break;
@@ -81,18 +87,28 @@ switch (command) {
         case "update": {
                 
                 const idToUpdate = Number(args[0]);
+
+                if(Number.isNaN(idToUpdate)){
+                        console.error("Please enter a valid Task Id.");
+                        break;
+                }
+
                 const description = args.slice(1).join(" ");
+
+                if(description === ""){
+                        console.error("Please enter a valid Description to update.");
+                        break;
+                }
                 const taskList = JSON.parse(fs.readFileSync("tasks.json", "utf8"));
                 
                 const task = taskList.find(t => t.id === idToUpdate);
                 
                 if(task){
                         task.description = description;
-                        const now = new Date().toISOString();
-                        task.updatedAt = now;
+                        task.updatedAt = new Date().toISOString();
                         
                         fs.writeFileSync("tasks.json", JSON.stringify(taskList, null, 2));
-                        console.log("Task Successfully updated. Task Id : " + idToUpdate);
+                        console.log("Task " + idToUpdate + " Successfully updated.");
                 }else
                         console.error("Task not found. Please enter a valid task Id.")
 
@@ -101,16 +117,21 @@ switch (command) {
                 
         case "mark-in-progress":{
                 const idToUpdate = Number(args[0]);
+
+                if(Number.isNaN(idToUpdate)){
+                        console.error("Please enter a valid Task Id.");
+                        break;
+                }
+
                 const taskList = JSON.parse(fs.readFileSync("tasks.json", "utf8"));
                 const task = taskList.find(t => t.id === idToUpdate);
 
                 if(task){
                         task.status = "in-progress";
-                        const now = new Date().toISOString();
-                        task.updatedAt = now;
+                        task.updatedAt = new Date().toISOString();;
 
                         fs.writeFileSync("tasks.json", JSON.stringify(taskList, null, 2));
-                        console.log("Task Successfully updated. Task Id : " + idToUpdate);
+                        console.log("Task " + idToUpdate + " marked in progress.");
                 }else
                         console.error("Task not found. Please enter a valid task Id.")
                 
@@ -119,16 +140,21 @@ switch (command) {
 
         case "mark-done":{
                 const idToUpdate = Number(args[0]);
+
+                if(Number.isNaN(idToUpdate)){
+                        console.error("Please enter a valid Task Id.");
+                        break;
+                }
+
                 const taskList = JSON.parse(fs.readFileSync("tasks.json", "utf8"));
                 const task = taskList.find(t => t.id === idToUpdate);
 
                 if(task){
                         task.status = "done";
-                        const now = new Date().toISOString();
-                        task.updatedAt = now;
+                        task.updatedAt = new Date().toISOString();
 
                         fs.writeFileSync("tasks.json", JSON.stringify(taskList, null, 2));
-                        console.log("Task Successfully updated. Task Id : " + idToUpdate);
+                        console.log("Task " + idToUpdate + " marked done.");
                 }else
                         console.error("Task not found. Please enter a valid task Id.")
                 
@@ -137,6 +163,6 @@ switch (command) {
         }
                         
         default:
-                console.log("Invalid Command Given. Please use Add, List or Delete.");
+                console.log("Invalid command. \n Available commands: \n add\tlist\tupdate\tdelete\tmark-in-progress\tmark-done.");
                         break;
                 }
